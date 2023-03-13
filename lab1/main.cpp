@@ -146,6 +146,7 @@ int main()
     int _ = 0;
     dfs(vec, _);
 
+    std::cout << "==================================\n";
     std::cout << "minimum test set: { ";
     for (size_t i = 0; i < 32; ++i)
         if (dfs_ans & (1<<i))
