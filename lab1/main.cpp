@@ -107,10 +107,13 @@ void dfs(std::vector<std::set<int>>& vec, int& s, size_t i = 0)
 
 int main()
 {
-	/*
-	for (int i = 0; i < 16; ++i)
-		std::cout << i << '\t' << (f(i) == f(std::bitset<4>{(unsigned long)i})) << '\n';
+	/* step 1
+	std::cout << "the test set of A3 S-A-1 is: { ";
+	for (auto& it : find_test_sets_A3_SA1())
+		std::cout << it << ' ';
+	std::cout << "}\n";
 	*/
+	/* step 2 */
     std::vector<std::set<int>> vec;
 	for (int i = 3; i >= 0; --i)
 	{
@@ -147,6 +150,7 @@ int main()
         std::cout << "}\n";
     }
 	
+	/* step 3 */
 	std::cout << "==================================\n\n";
 
 	bool table[16]{};
@@ -176,6 +180,5 @@ int main()
     	std::cout << "}\n";
 	}
 	std::cout << "\n";
-
 	return 0;
 }
