@@ -4,6 +4,7 @@
 #include <bitset>
 #include <cassert>
 #include <vector>
+#include <iomanip>
 
 constexpr std::size_t SIZE = 4;
 bool f(std::bitset<SIZE> in)
@@ -142,11 +143,26 @@ int main()
             std::cout << it << ' ';
         std::cout << "}\n";
     }
-    
+	
+	std::cout << "==================================\n\n";
+
+	bool table[16]{};
+	for (int i = 0; i < 16; ++i)
+	{
+		for (int j : vec[i])
+			table[j] = true;
+		for (int j = 0; j < 16; ++j)
+		{
+			std::cout << table[j] << ' ';
+			table[j] = false;
+		}
+		std::cout << '\n';
+	}
+
     int _ = 0;
     dfs(vec, _);
 
-    std::cout << "==================================\n";
+    std::cout << "\n==================================\n";
     std::cout << "minimum test set: { ";
     for (size_t i = 0; i < 32; ++i)
         if (dfs_ans & (1<<i))
