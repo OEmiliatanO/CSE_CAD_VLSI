@@ -8,26 +8,31 @@
 constexpr std::size_t SIZE = 4;
 bool f(std::bitset<SIZE> in)
 {
-	return (in[3] & in[2]) | (!in[1]) | in[0];
+	//return (in[3] & in[2]) | (!in[1]) | in[0];
+    return !(!(in[3] & in[2]) & !((!in[1]) | in[0]));
 }
 
 bool f(size_t v)
 {
 	std::bitset<SIZE> in{v};
 	//return (in[3] & in[2]) | (!in[1]) | in[0];
-	return !(!(in[3] & in[2]) & !((!in[1]) | in[0]));
+	return f(in);
 }
 
-bool f_wn(int n, bool val, std::bitset<SIZE> in)
+bool f(std::bitset<SIZE> in, int which, bool SA1)
 {
-    if (n == 1)
-	    return !(val & !((!in[1]) | in[0]));
-    else if (n == 2)
-	    return !(!(in[3] & in[2]) & !(val | in[0]));
-    else if (n == 3)
-    	return !(!(in[3] & in[2]) & val);
-    assert(false);
-    return false;
+    bool n1 = which & 0b0001;
+    bool n2 = which & 0b0010;
+    bool n3 = which & 0b0100;
+
+    if (n1)
+	    return !(SA1 & !((!in[1]) | in[0]));
+    else if (n2)
+	    return !(!(in[3] & in[2]) & !(SA1 | in[0]));
+    else if (n3)
+    	return !(!(in[3] & in[2]) & SA1);
+
+    return f(in);
 }
 
 std::set<int> find_test_sets_A3_SA1()
@@ -58,7 +63,7 @@ std::set<int> find_test_sets_nX(std::size_t X, bool SA1)
 	for (size_t i = 0; i < (1<<SIZE); ++i)
 	{
 		std::bitset<SIZE> in{i};
-        if ((f(i) ^ f_wn(X, SA1, in)) == true)
+        if ( (f(i) ^ f(in, 1<<(X-1), SA1)) == true )
 			ans.emplace(i);
 	}
 	return ans;
@@ -74,16 +79,6 @@ std::set<int> find_test_sets_Y(bool SA1)
 			ans.emplace(i);
 	}
     return ans;
-}
-
-template<class T>
-std::set<T> union_set(std::set<T> a, std::set<T> b)
-{
-	std::set<T> res;
-	set_union(a.begin(), a.end(),
-		      b.begin(), b.end,
-			  res.begin());
-	return res;
 }
 
 int dfs_ans = -1;
@@ -113,24 +108,24 @@ int main()
 		std::cout << i << '\t' << (f(i) == f(std::bitset<4>{(unsigned long)i})) << '\n';
 	*/
     std::vector<std::set<int>> vec;
-	for (std::size_t i = 0; i < 4; ++i)
+	for (int i = 3; i >= 0; --i)
 	{
-		for (std::size_t SA = 0; SA <= 1; ++SA)
+		for (int SA = 1; SA >= 0; --SA)
 		{
 			std::cout << "test set on A" << i << " S-A-" << SA << ":\n{ ";
-			std::set ans = find_test_sets_AX(i, (bool)SA);
+			std::set ans = find_test_sets_AX((std::size_t)i, (bool)SA);
             vec.emplace_back(ans);
 			for (auto& it : ans)
 				std::cout << it << ' ';
 			std::cout << "}\n";
 		}
 	}
-	for (std::size_t i = 1; i <= 3; ++i)
+	for (int i = 1; i <= 3; ++i)
 	{
-		for (std::size_t SA = 0; SA <= 1; ++SA)
+		for (int SA = 1; SA >= 0; --SA)
 		{
 			std::cout << "test set on n" << i << " S-A-" << SA << ":\n{ ";
-			std::set ans = find_test_sets_nX(i, (bool)SA);
+			std::set ans = find_test_sets_nX((std::size_t)i, (bool)SA);
             vec.emplace_back(ans);
 			for (auto& it : ans)
 				std::cout << it << ' ';
@@ -138,7 +133,7 @@ int main()
 		}
 	}
 	
-    for (std::size_t SA = 0; SA <= 1; ++SA)
+    for (int SA = 1; SA >= 0; --SA)
     {
         std::cout << "test set on Y S-A-" << SA << ":\n{ ";
         std::set ans = find_test_sets_Y((bool)SA);
@@ -147,7 +142,7 @@ int main()
             std::cout << it << ' ';
         std::cout << "}\n";
     }
-
+    
     int _ = 0;
     dfs(vec, _);
 
