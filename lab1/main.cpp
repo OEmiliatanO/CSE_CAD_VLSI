@@ -83,12 +83,15 @@ std::set<int> find_test_sets_Y(bool SA1)
 }
 
 int dfs_ans = -1;
+std::set<int> ans;
 void dfs(std::vector<std::set<int>>& vec, int& s, size_t i = 0)
 {
     if (i == vec.size()) 
     {
         if (__builtin_popcount(dfs_ans) > __builtin_popcount(s))
             dfs_ans = s;
+		if (5 == __builtin_popcount(s))
+			ans.emplace(s);
         return;
     }
 
@@ -163,11 +166,16 @@ int main()
     dfs(vec, _);
 
     std::cout << "\n==================================\n";
-    std::cout << "minimum test set: { ";
-    for (size_t i = 0; i < 32; ++i)
-        if (dfs_ans & (1<<i))
-            std::cout << i << ' ';
-    std::cout << "}\n";
+    std::cout << "minimum test set: \n";
+	for (auto& dfs_ans : ans)
+	{
+		std::cout << "{ ";
+		for (size_t i = 0; i < 32; ++i)
+        	if (dfs_ans & (1<<i))
+            	std::cout << i << ' ';
+    	std::cout << "}\n";
+	}
+	std::cout << "\n";
 
 	return 0;
 }
