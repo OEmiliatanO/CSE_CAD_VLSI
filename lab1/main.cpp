@@ -152,15 +152,22 @@ int main()
 	
 	/* step 3 */
 	std::cout << "==================================\n\n";
-
+	std::cout << "    ";
+	for (int i = 0; i < 16; ++i) std::cout << std::setw(2) << std::setfill('0') << i << ' ';
+	std::cout << '\n';
 	bool table[16]{};
 	for (int i = 0; i < 16; ++i)
 	{
 		for (int j : vec[i])
 			table[j] = true;
+		std::cout << "S" << std::setw(2) << std::setfill('0') << i+1 << ' ';
 		for (int j = 0; j < 16; ++j)
 		{
-			std::cout << table[j] << ' ';
+			if (table[j])
+				std::cout << std::setw(2) << std::setfill(' ') << table[j] << ' ';
+			else
+				std::cout << "  " << ' ';
+
 			table[j] = false;
 		}
 		std::cout << '\n';
