@@ -32,7 +32,7 @@ int readIn()
 	int i;
 
 
-    printf("\nfor pic 1,type p1.txt \nfor pic 2, type p2.txt\n");    
+    printf("\nfor pic 1,type DFG1.txt \nfor pic 2, type DFG2.txt\n");    
     printf("\n Enter Input filename : ");
 	scanf("%s",In_FileName);
 	
@@ -94,7 +94,7 @@ void list_Scheduling(int end)
      printf("\n input the number of constrained adder...");
      scanf("%d",&opadd);
      
-     printf("\nnumber of multiplier¡G%d, number of adder¡G%d\n",opmult,opadd);
+     printf("\nnumber of multiplier: %d, number of adder: %d\n",opmult,opadd);
      signal=0;
      state=1;
      opstate=1;
