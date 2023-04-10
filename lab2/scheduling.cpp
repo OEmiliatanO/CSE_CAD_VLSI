@@ -32,7 +32,7 @@ int readIn()
 	int i;
 
 
-    printf("\n欲選擇圖1，請輸入 p1.txt \n欲選擇圖2，請輸入 p2.txt\n");    
+    printf("\nfor pic 1,type p1.txt \nfor pic 2, type p2.txt\n");    
     printf("\n Enter Input filename : ");
 	scanf("%s",In_FileName);
 	
@@ -62,7 +62,7 @@ int readIn()
 
     count++;
     
-    if(end==count)   //終止用 
+    if(end==count)   //end
     break;
 
     }
@@ -89,16 +89,16 @@ void list_Scheduling(int end)
      fptr_out = fopen( "Scheduling_outcome.txt" , "w");     
      
      do{
-     printf("\n 輸入限制的乘法器個數...");
+     printf("\n input the number of constrained multiplier...");
      scanf("%d",&opmult);
-     printf("\n 輸入限制的加法器個數...");
+     printf("\n input the number of constrained adder...");
      scanf("%d",&opadd);
      
-     printf("\n乘法器個數：%d,加法器個數：%d\n",opmult,opadd);
+     printf("\nnumber of multiplier：%d, number of adder：%d\n",opmult,opadd);
      signal=0;
      state=1;
      opstate=1;
-     for(i=0;i<Size;i++)                                //alulist 初始化 
+     for(i=0;i<Size;i++)                                //alulist initialize 
      {
      alulist[i].add=opadd;     
      alulist[i].mult=opmult;
@@ -111,18 +111,18 @@ void list_Scheduling(int end)
           
          if((i>0)&&(state==list1[i-1].state)&&((sample1[i].op1==sample1[i-1].result)||(sample1[i].op2==sample1[i-1].result)))
          {
-                 state=state+1;                             //如果前面一個state的result 跟現在的op1 op2重複 就直接跳到下一個state 
+                 state=state+1;
          }
          if((i>1)&&(state==list1[i-2].state)&&((sample1[i].op1==sample1[i-2].result)||(sample1[i].op2==sample1[i-2].result)))
          {
-                 state=state+1;                             //如果前面兩個state的result 跟現在的op1 op2重複 就直接跳到下一個state
+                 state=state+1;
          }
          if((i>2)&&(state==list1[i-3].state)&&((sample1[i].op1==sample1[i-3].result)||(sample1[i].op2==sample1[i-3].result)))
          {
-                 state=state+1;                             //如果前面兩個state的result 跟現在的op1 op2重複 就直接跳到下一個state
+                 state=state+1;
          }
          
-         for(j=0;j<i;j++)                                  //尋找op1 跟 op2 最後出現的state 
+         for(j=0;j<i;j++) // find the state which op1 and op2 appear last
          {
             if((sample1[j].op==1)&&((sample1[i].op1==sample1[j].result)||(sample1[i].op2==sample1[j].result)))
             {
@@ -139,21 +139,21 @@ void list_Scheduling(int end)
          
 
          
-         if((i>0)&&(signal==1))                                      //state改為result最後出現後的下一筆 
+         if((i>0)&&(signal==1))
          state=opstate+1;
          
 
-         if(sample1[i].op==2)                                      //決定此運算要在哪一個state執行 
+         if(sample1[i].op==2)                                      // determine which state to execute this operator 
          do{
-         if(alulist[state].mult==0)                                //此state乘法器已經用完 找下一個  
+         if(alulist[state].mult==0)                                // the multiplers are sold out in this state 
          state++;
          if(alulist[state].mult>0)
          break;
          }while(1);
          
-         if(sample1[i].op==1)                                     //決定此運算要在哪一個state執行 
+         if(sample1[i].op==1)
          do{
-         if(alulist[state].add==0)                                //此state加法器已經用完 找下一個 
+         if(alulist[state].add==0)
          state++;
          if(alulist[state].add>0)                               
          break;
@@ -161,9 +161,9 @@ void list_Scheduling(int end)
 
              if( sample1[i].op==2 ){
   
-               list1[i].op=sample1[i].op;                        //把乘法器 或加法器 儲存起來 
-               list1[i].state=state;                             //紀錄它的state 
-               list1[i].num=i;                                   //紀錄它的運算編號 
+               list1[i].op=sample1[i].op;
+               list1[i].state=state;
+               list1[i].num=i;
                                               
                
                alulist[state].mult=alulist[state].mult-1;         
@@ -172,11 +172,11 @@ void list_Scheduling(int end)
 //               printf("*  Num=%d state=%d\n",list1[i].num,list1[i].state);
                               
               }
-             else       //如果加法器還沒用完 且裡面需要加法運算
+             else       //there are adders and need them
              {
-               list1[i].op=sample1[i].op;                        //把乘法器 或加法器 儲存起來 
-               list1[i].state=state;                             //紀錄它的state 
-               list1[i].num=i;                                   //紀錄它的運算編號 
+               list1[i].op=sample1[i].op;
+               list1[i].state=state;
+               list1[i].num=i;
                
                
                alulist[state].add=alulist[state].add-1; 
@@ -230,7 +230,7 @@ void list_Scheduling(int end)
     fprintf(fptr_out,"\n\n\n\n");     
     
     
-    printf("\n繼續使用       Yes(輸入1) No(輸入2) ");
+    printf("\ncontinue?       Yes(1) No(2) ");
     scanf("%d",&breakpoint);
 
     printf("\n\n");
