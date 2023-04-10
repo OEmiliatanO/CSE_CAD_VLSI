@@ -1,8 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
+#include <ctime>
+#include <algorithm>
+#define perr(...) fprintf(stderr, __VA_ARGS__)
 
 constexpr std::size_t Size = 200;
 
@@ -11,177 +12,91 @@ struct cdfg{
 }sample1[Size];
 
 struct readylist{
-    int state, op, num, dis;
+    int state, op, num;
 }list1[Size],temp;
        
 struct alu{
     int mult, add;
 }alulist[Size];
 
-int readIn()
-{
-	FILE *fptr_in;
-
-    int step = 0, op = 0, op1 = 0, op2 = 0, result = 0, count = 0, end;
-	char In_FileName[20]; 
-	int i;
-
-    printf("\n Enter Input filename : ");
-	scanf("%s",In_FileName);
-	
-    if( (fptr_in = fopen(In_FileName , "r")) == NULL )
-	{
-		printf("Error!!can not open file!! \nPress any key to exit. \n");
-    	exit(1); 
-	}
-	
-	fscanf(fptr_in,"%d",&end);
-	
-	
-    while(~fscanf(fptr_in,"%d %d %d %d",&op,&op1,&op2,&result)){
-
-
-        sample1[count].op=op;
-        sample1[count].op1=op1;
-        sample1[count].op2=op2;
-        sample1[count].result=result;
-        count++;
-    
-        if(end==count)
-            break;
-    }
-    
-	fclose(fptr_in);
-	return end;
-}
-
-
 void list_Scheduling(int end)
 {
-     int opmult, opadd;
-     int i, j, state = 1, opstate = 1;
-     int signal = 0;
-     int breakpoint = 1;
-     
-     FILE *fptr_out;
-     fptr_out = fopen( "Scheduling_outcome.txt" , "w");     
-     
-     do{
-         printf("\n input the number of constrained multiplier...");
-         scanf("%d",&opmult);
-         printf("\n input the number of constrained adder...");
-         scanf("%d",&opadd);
-         
-         printf("\nnumber of multiplier: %d, number of adder: %d\n",opmult,opadd);
-         signal=0;
-         state=1;
-         opstate=1;
-         for(i=0;i<Size;i++)                                //alulist initialize 
-         {
-            alulist[i].add=opadd;     
-            alulist[i].mult=opmult;
-         }
+    int opmult, opadd;
+	int timemul, timeadd;
+    int i, j, state = 1, opstate = 1;
+    int signal = 0;
+	int breakpoint = 0;
+ 
+    do {
+        perr("\n input the number of constrained multiplier and adder: ");
+        scanf("%d %d", &opmult, &opadd);
+		perr("\n input the time cost of multiplier and adder: ");
+		scanf("%d %d", &timemul, &timeadd);
+        
+        printf("\nnumber of multiplier: %d, adder: %d\n", opmult, opadd);
+		printf("\nthe time cost of multiplier: %d, adder: %d\n", timemul, timeadd);
+        signal = 0;
+        state = 1;
+        opstate = 1;
+        for (i = 0; i < Size; i++) //alulist initialize 
+        {
+        	alulist[i].add = opadd;     
+        	alulist[i].mult = opmult;
+        }
              
-         for(i=0;i<end;i++)
-         {
-            signal=0;
-                     
-              
-             if((i>0)&&(state==list1[i-1].state)&&((sample1[i].op1==sample1[i-1].result)||(sample1[i].op2==sample1[i-1].result)))
-             {
-                state=state+1;
-             }
-             if((i>1)&&(state==list1[i-2].state)&&((sample1[i].op1==sample1[i-2].result)||(sample1[i].op2==sample1[i-2].result)))
-             {
-                state=state+1;
-             }
-             if((i>2)&&(state==list1[i-3].state)&&((sample1[i].op1==sample1[i-3].result)||(sample1[i].op2==sample1[i-3].result)))
-             {
-                state=state+1;
-             }
-             
-             for(j=0;j<i;j++) // find the state which op1 and op2 appear last
-             {
-                if((sample1[j].op==1)&&((sample1[i].op1==sample1[j].result)||(sample1[i].op2==sample1[j].result)))
+        for (i = 0; i < end; i++)
+        {
+        	signal = 0;
+			
+            for (j = 0; j < i; j++) // find the state which op1 and op2 appear last
+            {
+                if ((sample1[j].op == 1) && ((sample1[i].op1 == sample1[j].result) || (sample1[i].op2 == sample1[j].result)))
                 {
-                    signal=1;
-                    opstate=list1[j].state;
+                    signal = 1;
+					opstate = list1[j].state + timeadd - 1;
                 }
                 
-                if((sample1[j].op==2)&&((sample1[i].op1==sample1[j].result)||(sample1[i].op2==sample1[j].result)))
+                if ((sample1[j].op == 2) && ((sample1[i].op1 == sample1[j].result) || (sample1[i].op2 == sample1[j].result)))
                 {
-                    signal=1;
-                    opstate=list1[j].state+1;
+                    signal = 1;
+					opstate = list1[j].state + timemul - 1;
                 }
-             }
-             
-
-             
-             if((i>0)&&(signal==1))
-                 state=opstate+1;
-             
-
-             if(sample1[i].op==2)                                      // determine which state to execute this operator 
-                 do{
-                    if(alulist[state].mult==0)                                // the multiplers are sold out in this state 
-                        state++;
-                    if (alulist[state].mult>0)
-                        break;
-                 }while(1);
-             
-             if(sample1[i].op==1)
-                 do{
-                    if(alulist[state].add==0)
-                        state++;
-                    if(alulist[state].add>0)                               
-                        break;
-                }while(1);
-
-             if( sample1[i].op==2 ){
-
-                   list1[i].op=sample1[i].op;
-                   list1[i].state=state;
-                   list1[i].num=i;                                 
-
-                   alulist[state].mult=alulist[state].mult-1;         
-                   alulist[state+1].mult=alulist[state+1].mult-1;
-                   
-        //               printf("*  Num=%d state=%d\n",list1[i].num,list1[i].state);
-                  }
-                 else       //there are adders and need them
-                 {
-                   list1[i].op=sample1[i].op;
-                   list1[i].state=state;
-                   list1[i].num=i;
-                   
-                   
-                   alulist[state].add=alulist[state].add-1; 
-                   
-        //               printf("+  Num=%d state=%d\n",list1[i].num,list1[i].state);
-
-                 } 
-
-            //    system("pause"); 
-         }//for 
-         for(i=0;i<end;i++)
-         {
-            for(j=i;j<end;j++)
-            {
-               if(list1[i].state>list1[j].state)
-               {
-                   temp.state=list1[j].state;
-                   temp.op=list1[j].op;
-                   temp.num=list1[j].num;
-                   list1[j].state=list1[i].state;
-                   list1[j].op=list1[i].op;
-                   list1[j].num=list1[i].num;
-                   list1[i].state=temp.state;
-                   list1[i].op=temp.op;
-                   list1[i].num=temp.num;
-               }
             }
-         }
-          
+            
+			if((i > 0) && (signal == 1))
+				state = opstate + 1;
+             
+            if (sample1[i].op == 2) // determine which state to execute this operator 
+            	do {
+                	if (alulist[state].mult == 0) // the multiplers are sold out in this state 
+                    	state++;
+                    if (alulist[state].mult > 0)
+                        break;
+                } while(true);
+
+            if(sample1[i].op == 1)
+                do {
+                    if (alulist[state].add == 0)
+                        state++;
+                    if (alulist[state].add > 0)
+                        break;
+                } while(true);
+
+            list1[i].op = sample1[i].op;
+            list1[i].state = state;
+            list1[i].num = i;
+
+            if(sample1[i].op == 2)
+				for (int i = 0; i < timemul; ++i)
+					alulist[state + i].mult = alulist[state + i].mult - 1;
+        	else if (sample1[i].op == 1) //there are adders and need them
+				for (int i = 0; i < timeadd; ++i)
+					alulist[state + i].add = alulist[state + i].add - 1;
+			else 
+			{ perr("error"); exit(1); }
+		}
+
+		std::sort(list1, list1+end, [](const auto& lhs, const auto& rhs) { return lhs.state < rhs.state; });
 
         fprintf(fptr_out,"*****************************\n");
         fprintf(fptr_out,"*    Resource Constraint    *\n");
@@ -190,34 +105,49 @@ void list_Scheduling(int end)
         fprintf(fptr_out,"*     Add  Constraint:%1d     *\n",opadd);
         fprintf(fptr_out,"*                           *\n");
         fprintf(fptr_out,"*****************************\n");
-        for(i=0;i<end;i++)
-        {
-            if(sample1[list1[i].num].op==1)
-            {
-                   printf("State:%3d  v%3d = v%3d + v%3d  \n",list1[i].state,sample1[list1[i].num].result,sample1[list1[i].num].op1,sample1[list1[i].num].op2);
-                   fprintf(fptr_out,"State:%3d  v%3d = v%3d + v%3d  \n",list1[i].state,sample1[list1[i].num].result,sample1[list1[i].num].op1,sample1[list1[i].num].op2);
-            }      
-            else
-            {
-                   printf("State:%3d  v%3d = v%3d * v%3d  \n",list1[i].state,sample1[list1[i].num].result,sample1[list1[i].num].op1,sample1[list1[i].num].op2);
-                   fprintf(fptr_out,"State:%3d  v%3d = v%3d * v%3d  \n",list1[i].state,sample1[list1[i].num].result,sample1[list1[i].num].op1,sample1[list1[i].num].op2);
-            }
-        }
-        fprintf(fptr_out,"\n\n\n\n");
+		for(i=0;i<end;i++)
+		{
+			int op = sample1[list1[i].num].op;
+			printf("State:%3d  v%3d = v%3d %c v%3d\n", list1[i].state, \
+					sample1[list1[i].num].result, \
+					sample1[list1[i].num].op1, \
+					" +*"[op], \
+					sample1[list1[i].num].op2);
 
-        printf("\ncontinue?       Yes(1) No(2) ");
-        scanf("%d",&breakpoint);
+			fprintf(fptr_out,"State:%3d  v%3d = v%3d %c v%3d\n", list1[i].state, \
+					sample1[list1[i].num].result, \
+					sample1[list1[i].num].op1, \
+					" +*"[op], \
+					sample1[list1[i].num].op2);
+		}
+        
+        fprintf(fptr_out, "\n\n\n\n");
 
-        printf("\n\n");
+        printf("\ncontinue? No(0) Yes(1): ");
+        scanf("%d", &breakpoint);
 
-    }while(breakpoint==1);
+		printf("\n\n");
+
+    } while(breakpoint);
+	printf("exit...\n");
    	fclose(fptr_out);
 }
 
 int main()
 {
-    int end;
-    end = readIn();
-    list_Scheduling(end);
+    int count = 0, N;
+	std::cin >> N;
+	
+	int op, op1, op2, result;
+    for (std::size_t i = 0; i < N; ++i)
+	{
+		std::cin >> op >> op1 >> op2 >> result;
+        sample1[i].op = op;
+        sample1[i].op1 = op1;
+        sample1[i].op2 = op2;
+        sample1[i].result = result;
+    }
+
+    list_Scheduling(N);
 	return 0;
 }
