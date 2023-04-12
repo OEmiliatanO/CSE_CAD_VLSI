@@ -31,7 +31,7 @@ struct alu
 };
 
 enum OPER {
-    add, mul
+    add=1, mul
 };
 
 std::array<alu, SIZE> alulist;
@@ -43,8 +43,8 @@ void list_scheduling(std::size_t N, std::size_t n_add = 1, std::size_t n_mul = 1
  
     for (auto& alu_ : alulist) 
     {
-        alu_.op_n[1] = n_add;
-        alu_.op_n[2] = n_mul;
+        alu_.op_n[OPER::add] = n_add;
+        alu_.op_n[OPER::mul] = n_mul;
     }
          
     for (std::size_t i = 0; i < N; ++i)
