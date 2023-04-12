@@ -60,11 +60,15 @@ SIZE = 10
 queue = []
 random.seed(time())
 x = dict(zip([i for i in range(100)], [1 for i in range(100)]))
+tlabel = set()
 for k, v in nodes.items():
     if v.t == 0:
         v.x = UNIT * x[v.t+1]
     else:
         v.x = UNIT * (x[v.t+1] + randint(1, 5))
+    
+    tlabel.add(v.t)
+
     v.y = UNIT * (v.t+1) + 5
     v.r = SIZE
     canvas.create_circle(v.x, v.y, v.r, fill="blue")
@@ -76,19 +80,8 @@ for k, v in nodes.items():
     for to in v.to:
         canvas.create_line(v.x, v.y+SIZE, nodes[to].x, nodes[to].y-SIZE)
 
-"""
-    if v.from_n == 0:
-        queue.append(k)
+for t in range(1, max(tlabel)+1):
+    tl = tk.Label(window, text = str(t))
+    tl.place(x=10, y=UNIT * (t+1))
 
-while len(queue):
-    the_node = nodes[queue[0]]
-    print(f"{queue[0]}: {the_node}")
-    del queue[0]
-    # TODO
-    # draw the node
-    for to in the_node.to:
-        nodes[to].from_n -= 1
-        if nodes[to].from_n == 0:
-            queue.append(to)
-"""
 window.mainloop()
