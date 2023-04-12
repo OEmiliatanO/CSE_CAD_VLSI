@@ -1,13 +1,15 @@
 #include <iostream>
 #include <algorithm>
 #include <array>
+
 constexpr std::size_t SIZE = 200;
+constexpr std::size_t OP_N = 10;
 
 struct cdfg
 {
-    int op, op1, op2, result;
+    std::size_t op, op1, op2, result;
     cdfg() = default;
-    cdfg(int op_, int op1_, int op2_, int result_): op{op_}, op1{op1_}, op2{op2_}, result{result_} {}
+    cdfg(std::size_t op_, std::size_t op1_, std::size_t op2_, std::size_t result_): op{op_}, op1{op1_}, op2{op2_}, result{result_} {}
 };
 
 std::array<cdfg, SIZE> sample1;
@@ -15,18 +17,21 @@ std::array<cdfg, SIZE> sample1;
 struct readylist
 {
     std::size_t step, num;
-    int op;
+    std::size_t op;
     readylist() = default;
-    readylist(std::size_t step_, std::size_t num_, int op_): step{step_}, num{num_}, op{op_} {}
+    readylist(std::size_t step_, std::size_t num_, std::size_t op_): step{step_}, num{num_}, op{op_} {}
 }temp;
 
 std::array<readylist, SIZE> list1;
        
 struct alu
 {
-    std::size_t mult, add;
+    std::array<std::size_t, OP_N> op_n;
     alu() = default;
-    alu(std::size_t mult_, std::size_t add_): mult{mult_}, add{add_} {}
+};
+
+enum OPER {
+    add, mul
 };
 
 std::array<alu, SIZE> alulist;
@@ -38,36 +43,26 @@ void list_scheduling(std::size_t N, std::size_t n_add = 1, std::size_t n_mul = 1
  
     for (auto& alu_ : alulist) 
     {
-        alu_.add = n_add;
-        alu_.mult = n_mul;
+        alu_.op_n[1] = n_add;
+        alu_.op_n[2] = n_mul;
     }
          
     for (std::size_t i = 0; i < N; ++i)
     {
+        std::size_t op = sample1[i].op;
+
         for (std::size_t j = 0; j < i; ++j)
             if (sample1[i].op1 == sample1[j].result || sample1[i].op2 == sample1[j].result)
                 step = list1[j].step + time[sample1[j].op];
  
-        if (sample1[i].op == 1)
-            for (; alulist[step].add == 0; ++step);
-        else if (sample1[i].op == 2) 
-            for (; alulist[step].mult == 0; ++step);
-        else
-        {
-            std::cerr << "invalid oper: " << sample1[i].op << std::endl;
-            exit(1);
-        }
+        for (; alulist[step].op_n[op] == 0; ++step);
 
-        list1[i].op = sample1[i].op;
+        list1[i].op = op;
         list1[i].step = step;
         list1[i].num = i;
 
-        if (sample1[i].op == 1)
-            for (std::size_t t = 0; t < t_add; ++t)
-                --alulist[step + t].add;
-        else if(sample1[i].op == 2)
-            for (std::size_t t = 0; t < t_mul; ++t)
-                --alulist[step + t].mult;
+        for (std::size_t t = 0; t < time[op]; ++t)
+            --alulist[step + t].op_n[op];
     }
 
     std::sort(list1.begin(), list1.begin() + N, [](const auto& lhs, const auto& rhs) { return lhs.step < rhs.step; });
