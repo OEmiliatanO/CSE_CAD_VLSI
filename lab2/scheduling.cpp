@@ -80,7 +80,7 @@ void list_scheduling(std::size_t N, std::size_t n_add = 1, std::size_t n_mul = 1
     return;
 }
 
-int main(int argc, char **argv)
+int main([[maybe_unused]]int argc, [[maybe_unused]]char **argv)
 {
     std::size_t N;
 	std::cin >> N;
