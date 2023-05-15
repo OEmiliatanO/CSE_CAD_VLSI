@@ -63,5 +63,9 @@ RGB2YUV rgbtuv(start,clk,rst,{1'b0,bmp_data[(i-data_start_index)*3+data_start_in
     $finish;
 
   end
-  
+  initial begin
+      $fsdbDumpfile("top.fsdb");
+      $fsdbDumpMDA;
+      $fsdbDumpvars;
+  end
 endmodule
