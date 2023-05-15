@@ -1,0 +1,108 @@
+0
+41
++itf+/usr/cad/synopsys/vcs/2023.03/linux64/lib/vcsdp_lite.tab
++v2k
++vcsd1
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/usr/cad/synopsys/vcs/2023.03/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /usr/cad/synopsys/vcs/2023.03/linux64/lib/libvirsim.so /usr/cad/synopsys/vcs/2023.03/linux64/lib/liberrorinf.so /usr/cad/synopsys/vcs/2023.03/linux64/lib/libsnpsmalloc.so /usr/cad/synopsys/vcs/2023.03/linux64/lib/libvfs.so
+-Mout=simv
+-Msaverestoreobj=/usr/cad/synopsys/vcs/2023.03/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=/usr/cad/synopsys/verdi/2023.03/share/PLI/VCS/LINUX64/pli.a -ldl
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/cad/synopsys/vcs/2023.03/include
+-Mxllcflags=
+-P
+-Xvcs_run_simv=1
+-debug_access+all
+-fsdb
+-full64
+-gen_obj
+-picarchive
+/usr/cad/synopsys/vcs/2023.03/linux64/bin/vcs1
+/usr/cad/synopsys/verdi/2023.03/share/PLI/VCS/LINUX64/verdi.tab
+testbench.v
+Multipliper.v
+Add.v
+MUX2.v
+MUX3.v
+MUX4.v
+Register.v
+ROM.v
+Datapath.v
+Controller.v
+RGB2YUV.v
+41
+XDG_SESSION_ID=3524
+XDG_RUNTIME_DIR=/run/user/1034
+XDG_DATA_DIRS=/home/VLSICAD33/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+VMR_MODE_FLAG=64
+VERDI_HOME=/usr/cad/synopsys/verdi/2023.03
+VENDOR=unknown
+VCS_PATHMAP_PRELOAD_DONE=1
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_HOME=/usr/cad/synopsys/vcs/2023.03/
+VCS_EXEC_DONE=1
+VCS_DEPTH=0
+VCS_CC=gcc
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/usr/cad/synopsys/vcs/2023.03/linux64
+SYN_MAN_DIR=/usr/cad/synopsys/vcs/2023.03//doc/man
+SYNOPSYS_LC_ROOT=/cad/synopsys/lc/cur
+SSH_TTY=/dev/pts/42
+SSH_CONNECTION=140.117.175.48 61145 140.117.176.78 22
+SSH_CLIENT=140.117.175.48 61145 22
+SNPS_VCS_CLANG_PATH=/usr/cad/synopsys/vcs/2023.03//linux64/clang
+SNPS_INTERNAL_VCS_LINUX_OS=linux
+SHLIB_PATH=/usr/cad/synopsys/verdi/2023.03/etc/lib/libstdc++/LINUX64/:/usr/cad/synopsys/verdi/2023.03/share/PLI/lib/LINUX64/:/usr/cad/synopsys/verdi/2023.03/share/PLI/VCS/LINUX64/:
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+REMOTEHOST=140.117.175.48
+OVA_UUM=0
+OSTYPE=linux
+MFLAGS=
+MAKELEVEL=1
+MAKEFLAGS=
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LC_ALL=C
+HOSTTYPE=x86_64-linux
+HISTCONTROL=ignoredups
+GROUP=VLSICAD33
+0
+0
+13
+1684164428 RGB2YUV.v
+1684164428 Controller.v
+1684164428 Datapath.v
+1684164428 ROM.v
+1684164428 Register.v
+1684164428 MUX4.v
+1684164428 MUX3.v
+1684167296 MUX2.v
+1684164428 Add.v
+1684164428 Multipliper.v
+1684169462 testbench.v
+1676546067 /usr/cad/synopsys/verdi/2023.03/share/PLI/VCS/LINUX64/verdi.tab
+1677384340 /usr/cad/synopsys/vcs/2023.03/linux64/lib/vcsdp_lite.tab
+4
+1677385575 /usr/cad/synopsys/vcs/2023.03/linux64/lib/libvirsim.so
+1677385060 /usr/cad/synopsys/vcs/2023.03/linux64/lib/liberrorinf.so
+1677385018 /usr/cad/synopsys/vcs/2023.03/linux64/lib/libsnpsmalloc.so
+1677385055 /usr/cad/synopsys/vcs/2023.03/linux64/lib/libvfs.so
+1684169476 simv.daidir
+-1 partitionlib
