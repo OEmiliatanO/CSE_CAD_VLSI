@@ -1,0 +1,61 @@
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : RGB2YUV
+Version: U-2022.12
+Date   : Sun May 21 04:51:12 2023
+****************************************
+
+
+Library(s) Used:
+
+    typical (File: /cad/CBDK/CBDK_TSMC90GUTM_Arm_f1.0/CIC/SynopsysDC/db/typical.db)
+
+
+Operating Conditions: slow   Library: slow
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+RGB2YUV                tsmc090_wl10      slow
+
+
+Global Operating Voltage = 0.9  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+Attributes
+----------
+i - Including register clock pin internal power
+
+
+  Cell Internal Power  = 378.5397 uW   (59%)
+  Net Switching Power  = 263.4735 uW   (41%)
+                         ---------
+Total Dynamic Power    = 642.0132 uW  (100%)
+
+Cell Leakage Power     =   7.1798 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.2143            0.0000            0.0000            0.2143  (  33.01%)  i
+register       1.1585e-02        1.4370e-02        1.3188e+06        2.7274e-02  (   4.20%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      0.1526            0.2491        5.8610e+06            0.4076  (  62.78%)
+--------------------------------------------------------------------------------------------------
+Total              0.3785 mW         0.2635 mW     7.1798e+06 pW         0.6492 mW
+1

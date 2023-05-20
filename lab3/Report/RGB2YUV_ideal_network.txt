@@ -1,0 +1,15 @@
+ 
+****************************************
+Report : ideal_network
+Design : RGB2YUV
+Version: U-2022.12
+Date   : Sun May 21 04:51:12 2023
+****************************************
+
+Source ports                Latency                     Transition
+and pins              Rise           Fall           Rise          Fall
+                    min   max      min   max      min   max     min   max
+------------------------------------------------------------------------------
+RGB2YUV/clk          --    --       --    --       --    --      --    --   
+
+1

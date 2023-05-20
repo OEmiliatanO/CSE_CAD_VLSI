@@ -1,7 +1,7 @@
 rc file Version 1.0
 
 [Design]
-COMPILE_PATH=/home/VLSICAD33/lab03
+COMPILE_PATH=/home/VLSICAD33/CSE_CAD_VLSI/lab3
 VCS_HOME=/usr/cad/synopsys/vcs/2023.03/
 VERDI_HOME=/usr/cad/synopsys/verdi/2023.03
 SystemC=FALSE

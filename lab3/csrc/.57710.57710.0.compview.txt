@@ -1,0 +1,9 @@
+{"vcs1":{"timestamp_begin":1684179321.955512235, "rt":0.76, "ut":0.24, "st":0.16}}
+{"vcselab":{"timestamp_begin":1684179322.824395818, "rt":0.65, "ut":0.22, "st":0.09}}
+{"link":{"timestamp_begin":1684179323.556423668, "rt":0.23, "ut":0.17, "st":0.08}}
+{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1684179321.163704351}
+{"VCS_COMP_START_TIME": 1684179321.163704351}
+{"VCS_COMP_END_TIME": 1684179328.480904184}
+{"VCS_USER_OPTIONS": "testbench.v Multipliper.v Add.v MUX2.v MUX3.v MUX4.v Register.v ROM.v Datapath.v Controller.v RGB2YUV.v -R -full64 -debug_access+all +v2k"}
+{"vcs1": {"peak_mem": 338572}}
+{"vcselab": {"peak_mem": 224564}}
