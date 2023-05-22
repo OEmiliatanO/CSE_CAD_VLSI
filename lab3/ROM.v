@@ -12,7 +12,7 @@ module ROM (clk, addr, data);
 		3'b100: data <= 9'b010000000;
 		3'b101: data <= 9'b110010101;
 		3'b110: data <= 9'b111101100;
-		3'b111: data <= 9'b100011101;
+		3'b111: data <= 9'b000011101;
 		endcase
 	end
 endmodule
